@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boostrap_pagina_git</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("table").hide();
+            $("button").click(function() {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://api.github.com/users/' + $("#Usuario").val() + '/repos',
+                    data: {get_param: 'value'},
+                    dataType: 'text',
+                    success: function (data) {
+                        $("table").show();
+                        var json = $.parseJSON(data);
+                        for (var i=0;i<json.length;++i){
+                            $("#Body").append("<tr>" + "<td>"+json[i].name+"</td>" + "<td>"+json[i].description+"</td>" + "<td>"+json[i].stargazers_count+"</td>" + "</tr>");
+                        }
+                    },
+                    error: function (data) {
+                        alert("Error");
+                    }
+                });
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div class="container">
+    <h1>Practica Broostrap y Jason</h1>
+    <form class="col-6">
+        <input type="text" class="form-control" id="Usuario">
+        <button type="button" class="btn btn-success" id="button">Basic</button>
+    </form>
+
+</div>
+<div id="table" class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Number of followers</th>
+        </tr>
+        </thead>
+        <tbody id="body">
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>
